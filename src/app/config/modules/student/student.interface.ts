@@ -27,12 +27,12 @@ export type Student = {
   contactNo: string;
   emergencyContactNo: string;
   bloodGroup?: 'A+' | 'B+' | 'O+' | 'AB+' | 'A-' | 'B-' | 'O-' | 'AB-';
-  dateOfBirth: string;
+  dateOfBirth?: string;
   gender: 'male' | 'female';
   permanentAddress: string;
   presentAddress: string;
   guardian: Guardian;
   localGuardian: LocalGuardian;
   profileImg?: string;
-  isActive: 'active' | 'inActive';
+  isActive: 'active' | 'blocked';
 };
