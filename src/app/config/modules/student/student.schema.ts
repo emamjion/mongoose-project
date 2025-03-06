@@ -1,3 +1,5 @@
+import validator from 'validator';
+
 import { Schema } from 'mongoose';
 import {
   Guardian,
@@ -28,6 +30,10 @@ const userNameSchema = new Schema<UserName>({
     type: String,
     trim: true,
     required: [true, 'Last Name is required'],
+    validate : {
+      validator : (value : string) => validator.isAlpha(value),
+      message : '{VALUE} is not valid'
+    }
   },
 });
 
@@ -112,6 +118,10 @@ export const studentSchema = new Schema<Student>({
     trim: true,
     required: [true, 'Email is required'],
     unique: true,
+    validate : {
+      validator : (value : string) => validator.isEmail(value),
+      message : '{VALUE} is not a valid email type'
+    }
   },
   contactNo: {
     type: String,
