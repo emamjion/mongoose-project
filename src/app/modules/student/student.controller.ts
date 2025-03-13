@@ -75,6 +75,28 @@ const getSpecificStudent = async (req: Request, res: Response) => {
   }
 };
 
+// const updateStudent = async (req: Request, res: Response) => {
+//   try {
+//     const { studentId } = req.params;
+//     const { studentData } = req.body;
+//     const result = await StudentServices.updateStudentIntoDB(
+//       studentId,
+//       studentData,
+//     );
+//     res.status(200).json({
+//       success: true,
+//       message: 'Student information updated successfully',
+//       data: result,
+//     });
+//   } catch (error: any) {
+//     return res.status(500).json({
+//       success: false,
+//       message: error.message || 'Something went wrong',
+//       error: error,
+//     });
+//   }
+// };
+
 const deleteStudent = async (req: Request, res: Response) => {
   const { studentId } = req.params;
   try {
@@ -97,5 +119,6 @@ export const StudentControllers = {
   createStudent,
   getAllStudents,
   getSpecificStudent,
+  // updateStudent,
   deleteStudent,
 };

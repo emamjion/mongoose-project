@@ -46,6 +46,11 @@ studentSchema.methods.isUserExists = async function (id: string) {
 };
 */
 
+// Using virtual() in mongoose.
+studentSchema.virtual('fullName').get(function () {
+  return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
+});
+
 // Creating a static instance method in mongoose.
 studentSchema.statics.isUserExists = async function (id: string) {
   const existingUser = await Student.findOne({ id });

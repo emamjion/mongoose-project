@@ -46,6 +46,14 @@ const getSpecificStudentsFromDB = async (id: string) => {
   return result;
 };
 
+/* using updateOne() method to update a specific student.
+const updateStudentIntoDB = async (studentId: string, studentData : TStudent) => {
+  const result = await Student.findByIdAndUpdate({ studentId }, { $set: studentData });
+  return result;
+};
+*/
+
+
 // using updateOne() method to delete a specific student.
 const deleteStudentFromDB = async (id: string) => {
   const result = await Student.updateOne({ id }, { isDeleted: true });
@@ -57,4 +65,5 @@ export const StudentServices = {
   getAllStudentsFromDB,
   getSpecificStudentsFromDB,
   deleteStudentFromDB,
+  // updateStudentIntoDB,
 };

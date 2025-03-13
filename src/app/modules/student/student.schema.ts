@@ -92,84 +92,91 @@ const guardianSchema = new Schema<TGuardian>({
   },
 });
 
-export const studentSchema = new Schema<TStudent, StudentModel>({
-  id: { type: String, trim: true, required: true, unique: true },
-  password: {
-    type: String,
-    trim: true,
-    required: [true, 'Paswword is required'],
-    maxlength: [20, 'Password can not be more than 20 characters.'],
-  },
-  name: {
-    type: userNameSchema,
-    required: [true, 'Student name is required'],
-  },
-  gender: {
-    type: String,
-    trim: true,
-    enum: {
-      values: ['male', 'female', 'other'],
-      message: '{VALUE} is not a valid gender',
+export const studentSchema = new Schema<TStudent, StudentModel>(
+  {
+    id: { type: String, trim: true, required: true, unique: true },
+    password: {
+      type: String,
+      trim: true,
+      required: [true, 'Paswword is required'],
+      maxlength: [20, 'Password can not be more than 20 characters.'],
     },
-    required: [true, 'Gender is required'],
+    name: {
+      type: userNameSchema,
+      required: [true, 'Student name is required'],
+    },
+    gender: {
+      type: String,
+      trim: true,
+      enum: {
+        values: ['male', 'female', 'other'],
+        message: '{VALUE} is not a valid gender',
+      },
+      required: [true, 'Gender is required'],
+    },
+    dateOfBirth: {
+      type: String,
+      trim: true,
+      required: [true, 'Date of Birth is required'],
+    },
+    email: {
+      type: String,
+      trim: true,
+      required: [true, 'Email is required'],
+      unique: true,
+      // validate : {
+      //   validator : (value : string) => validator.isEmail(value),
+      //   message : '{VALUE} is not a valid email type'
+      // }
+    },
+    contactNo: {
+      type: String,
+      trim: true,
+      required: [true, 'Contact number is required'],
+    },
+    emergencyContactNo: {
+      type: String,
+      trim: true,
+      required: [true, 'Emergency contact number is required'],
+    },
+    bloodGroup: {
+      type: String,
+      trim: true,
+      enum: ['A+', 'B+', 'O+', 'AB+', 'A-', 'B-', 'O-', 'AB-'],
+    },
+    permanentAddress: {
+      type: String,
+      trim: true,
+      required: [true, 'Permanent address is required'],
+    },
+    presentAddress: {
+      type: String,
+      trim: true,
+      required: [true, 'Present address is required'],
+    },
+    guardian: {
+      type: guardianSchema,
+      required: [true, 'Guardian information is required'],
+    },
+    localGuardian: {
+      type: localGuardianSchema,
+      required: [true, 'Local Guardian information is required'],
+    },
+    profileImg: { type: String, trim: true },
+    isActive: {
+      type: String,
+      trim: true,
+      enum: ['active', 'blocked'],
+      default: 'active',
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
-  dateOfBirth: {
-    type: String,
-    trim: true,
-    required: [true, 'Date of Birth is required'],
+  {
+    toJSON: {
+      virtuals: true,
+    },
   },
-  email: {
-    type: String,
-    trim: true,
-    required: [true, 'Email is required'],
-    unique: true,
-    // validate : {
-    //   validator : (value : string) => validator.isEmail(value),
-    //   message : '{VALUE} is not a valid email type'
-    // }
-  },
-  contactNo: {
-    type: String,
-    trim: true,
-    required: [true, 'Contact number is required'],
-  },
-  emergencyContactNo: {
-    type: String,
-    trim: true,
-    required: [true, 'Emergency contact number is required'],
-  },
-  bloodGroup: {
-    type: String,
-    trim: true,
-    enum: ['A+', 'B+', 'O+', 'AB+', 'A-', 'B-', 'O-', 'AB-'],
-  },
-  permanentAddress: {
-    type: String,
-    trim: true,
-    required: [true, 'Permanent address is required'],
-  },
-  presentAddress: {
-    type: String,
-    trim: true,
-    required: [true, 'Present address is required'],
-  },
-  guardian: {
-    type: guardianSchema,
-    required: [true, 'Guardian information is required'],
-  },
-  localGuardian: {
-    type: localGuardianSchema,
-    required: [true, 'Local Guardian information is required'],
-  },
-  profileImg: { type: String, trim: true },
-  isActive: {
-    type: String,
-    trim: true,
-    enum: ['active', 'blocked'],
-    default: 'active',
-  },
-  isDeleted : {
-    type : Boolean,
-    default : false
-  }
-});
+);
