@@ -9,12 +9,14 @@ const createStudent = async (req: Request, res: Response) => {
 
     // Data validation using Joi.
     // const { error, value } = studentValidationSchema.validate(studentData);
+    // const result = await StudentServices.createStudentIntoDB(value);
 
     // Data validation using Zod.
-    const zodParsedData = studentValidationSchema.parse(studentData);
+    // const zodParsedData = studentValidationSchema.parse(studentData);
+    // const result = await StudentServices.createStudentIntoDB(zodParsedData);
 
-    // const result = await StudentServices.createStudentIntoDB(value);
-    const result = await StudentServices.createStudentIntoDB(zodParsedData);
+    
+    const result = await StudentServices.createStudentIntoDB(studentData);
 
     // if (error) {
     //   res.status(500).json({
@@ -29,8 +31,13 @@ const createStudent = async (req: Request, res: Response) => {
       message: 'Student is created successfully',
       data: result,
     });
-  } catch (error) {
-    console.log('Error in student controller: ', error);
+  } catch (error: any) {
+    // console.log('Error in student controller: ', error);
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Something went wrong',
+      error: error,
+    });
   }
 };
 
