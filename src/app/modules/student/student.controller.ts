@@ -3,7 +3,6 @@ import { StudentServices } from './student.service';
 
 // import studentValidationSchema from './student.validation';
 
-
 const createStudent = async (req: Request, res: Response) => {
   try {
     const { student: studentData } = await req.body;
@@ -16,7 +15,6 @@ const createStudent = async (req: Request, res: Response) => {
     // const zodParsedData = studentValidationSchema.parse(studentData);
     // const result = await StudentServices.createStudentIntoDB(zodParsedData);
 
-    
     const result = await StudentServices.createStudentIntoDB(studentData);
 
     // if (error) {
@@ -43,12 +41,20 @@ const createStudent = async (req: Request, res: Response) => {
 };
 
 const getAllStudents = async (req: Request, res: Response) => {
-  const result = await StudentServices.getAllStudentsFromDB();
-  res.status(200).json({
-    success: true,
-    message: 'Students are retrieved sucessfully',
-    data: result,
-  });
+  try {
+    const result = await StudentServices.getAllStudentsFromDB();
+    res.status(200).json({
+      success: true,
+      message: 'Students are retrieved sucessfully',
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Something went wrong',
+      error: error,
+    });
+  }
 };
 
 const getSpecificStudent = async (req: Request, res: Response) => {
@@ -60,8 +66,30 @@ const getSpecificStudent = async (req: Request, res: Response) => {
       message: 'Student is retrieved successfully',
       data: result,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Something went wrong',
+      error: error,
+    });
+  }
+};
+
+const deleteStudent = async (req: Request, res: Response) => {
+  const { studentId } = req.params;
+  try {
+    const result = await StudentServices.deleteStudentFromDB(studentId);
+    res.status(200).json({
+      success: true,
+      message: 'Student is deleted successfully',
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Something went wrong',
+      error: error,
+    });
   }
 };
 
@@ -69,4 +97,5 @@ export const StudentControllers = {
   createStudent,
   getAllStudents,
   getSpecificStudent,
+  deleteStudent,
 };

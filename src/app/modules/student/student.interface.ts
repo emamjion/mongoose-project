@@ -24,7 +24,7 @@ export type TLocalGuardian = {
 
 export type TStudent = {
   id: string;
-  password : string;
+  password: string;
   name: TUserName;
   email: string;
   contactNo: string;
@@ -38,13 +38,13 @@ export type TStudent = {
   localGuardian: TLocalGuardian;
   profileImg?: string;
   isActive: 'active' | 'blocked';
+  isDeleted: boolean;
 };
 
 // Static instance method in mongoose.
 export interface StudentModel extends Model<TStudent> {
-  isUserExists(id : string) : Promise<TStudent | null>;
-};
-
+  isUserExists(id: string): Promise<TStudent | null>;
+}
 
 // Custom instance method in mongoose.
 /*

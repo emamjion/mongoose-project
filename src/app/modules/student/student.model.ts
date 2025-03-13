@@ -5,16 +5,37 @@ import { StudentModel, TStudent } from './student.interface';
 import { studentSchema } from './student.schema';
 
 // pre save middleware / hook in mongoose : will work on create() function and save() function.
-studentSchema.pre('save', function () {
-  // console.log(this, 'pre save hook : we will save the data');
-  const user = this;
+studentSchema.pre('save', async function (next) {
+  const user = this; // refer to document.
   // Hasing the password and save it to the Database.
-  bcrypt.hash(user.password, Number(config.BCRYPT_SALT_ROUNDS), function () {});
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.BCRYPT_SALT_ROUNDS),
+  );
+
+  next();
 });
 
 // post save middleware / hook in mongoose
-studentSchema.post('save', function () {
-  console.log(this, 'post save hook : data saved successfully');
+studentSchema.post('save', function (doc, next) {
+  doc.password = '**********'; // Hiding the password from the response.
+  next();
+});
+
+// Query Middleware
+studentSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+studentSchema.pre('findOne', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+studentSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
 });
 
 // Creating a custom istance method in mongoose.

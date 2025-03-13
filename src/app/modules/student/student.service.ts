@@ -29,8 +29,26 @@ const getAllStudentsFromDB = async () => {
   return result;
 };
 
+/* using findOne() method to get a specific student.
 const getSpecificStudentsFromDB = async (id: string) => {
   const result = await Student.findOne({ id });
+  return result;
+};
+*/
+
+// using aggregate() method to get a specific student.
+const getSpecificStudentsFromDB = async (id: string) => {
+  const result = await Student.aggregate([
+    {
+      $match: { id: id },
+    },
+  ]);
+  return result;
+};
+
+// using updateOne() method to delete a specific student.
+const deleteStudentFromDB = async (id: string) => {
+  const result = await Student.updateOne({ id }, { isDeleted: true });
   return result;
 };
 
@@ -38,4 +56,5 @@ export const StudentServices = {
   createStudentIntoDB,
   getAllStudentsFromDB,
   getSpecificStudentsFromDB,
+  deleteStudentFromDB,
 };
