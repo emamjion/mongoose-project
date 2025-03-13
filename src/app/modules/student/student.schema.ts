@@ -1,11 +1,6 @@
 import { Schema } from 'mongoose';
-import {
-  StudentModel,
-  TGuardian,
-  TLocalGuardian,
-  TStudent,
-  TUserName,
-} from './student.interface';
+import { StudentModel, TGuardian, TLocalGuardian, TStudent, TUserName } from './student.interface';
+
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -94,6 +89,13 @@ const guardianSchema = new Schema<TGuardian>({
 
 export const studentSchema = new Schema<TStudent, StudentModel>({
   id: { type: String, trim: true, required: true, unique: true },
+  password: {
+    type: String,
+    trim: true,
+    required: [true, 'Paswword is required'],
+    unique: true,
+    maxlength: [20, 'Password can not be more than 20 characters.'],
+  },
   name: {
     type: userNameSchema,
     required: [true, 'Student name is required'],

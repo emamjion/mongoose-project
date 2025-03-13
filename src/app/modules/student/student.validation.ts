@@ -24,6 +24,7 @@ const guardianValidationSchema = z.object({
 
 const studentValidationSchema = z.object({
   id: z.string().min(1, { message: 'ID is required' }),
+  password : z.string().min(1, {message : 'Password is required'}).max(20, {message : 'Password can not be more than 20 characters'}),
   name: userNameValidationSchema,
   gender: z.enum(['male', 'female', 'other'], { message: 'Gender is required' }),
   dateOfBirth: z.string().min(1, { message: 'Date of birth is required' }),
